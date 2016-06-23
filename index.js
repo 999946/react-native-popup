@@ -1,9 +1,9 @@
 'use strict';
 
-import React, {
-	Component,
+import React, { Component, PropTypes} from 'react';
+
+import {
 	StyleSheet,
-	PropTypes,
 	View,
 	Text,
 	TouchableOpacity,
@@ -13,13 +13,13 @@ import React, {
 	Platform,
 } from 'react-native';
 
-class PopContent extends Component{
+class PopContent extends Component {
 
 	static propTypes = {
 		title: PropTypes.string,
-		content: PropTypes.oneOfType([ PropTypes.string, PropTypes.number, PropTypes.array, ]),
+		content: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array,]),
 		btns: PropTypes.array,
-	};
+	}
 
 	render() {
 		let {title, content, btns} = this.props;
@@ -30,33 +30,33 @@ class PopContent extends Component{
 				<View style={styles.tipContentBox}>
 					{(() => {
 						let tipContent = [];
-						if(content instanceof Array){
+						if (content instanceof Array) {
 							content.forEach((item, index, arr) => {
-								if(index > 9){
+								if (index > 9) {
 									return;
 								}
-								item && ( tipContent[index] = (<Text style={styles.tipContent} key={'tipContent' + index}>{item}</Text>) );
+								item && (tipContent[index] = (<Text style={styles.tipContent} key={'tipContent' + index}>{item}</Text>));
 							});
-						}else{
-							content && ( tipContent[0] = (<Text style={styles.tipContent} key={'tipContent'}>{content}</Text>) );
+						} else {
+							content && (tipContent[0] = (<Text style={styles.tipContent} key={'tipContent'}>{content}</Text>));
 						}
 						return tipContent;
-					})()}
+					})() }
 				</View>
 				<View style={styles.line}></View>
-				<View style={[styles.btnBox, btnNumber > 2 ? {flexDirection: 'column',} : {}]}>
+				<View style={[styles.btnBox, btnNumber > 2 ? { flexDirection: 'column', } : {}]}>
 					{(() => {
 						let btnContent = [];
-						btns.forEach((btn, index,) => {
+						btns.forEach((btn, index, ) => {
 							btnContent.push(
 								<TouchableOpacity style={styles.btnTextBox} onPress={btn.callback} key={'btnTextBox' + index}>
 									<Text style={styles.btnText}>{btn.text}</Text>
 								</TouchableOpacity>
 							);
-							index != btnNumber - 1 && btnContent.push( <View style={styles.btnLine} key={'btnLine' + index} /> );
+							index != btnNumber - 1 && btnContent.push(<View style={styles.btnLine} key={'btnLine' + index} />);
 						});
 						return btnContent;
-					})()}
+					})() }
 				</View>
 			</View>
 		);
@@ -64,14 +64,14 @@ class PopContent extends Component{
 
 };
 
-class DisplayPopup extends Component{
+class DisplayPopup extends Component {
 
 	static defaultProps = {
 		isOverlay: true,
 		isOverlayClickClose: true,
 		btns: [{
 			text: 'ok',
-			callback: () => {},
+			callback: () => { },
 		}],
 	};
 
@@ -92,13 +92,13 @@ class DisplayPopup extends Component{
 	}
 
 	_renderOverlay() {
-		if(this.props.isOverlay) {
+		if (this.props.isOverlay) {
 			return (
 				<TouchableWithoutFeedback onPress={() => {
-					if(this.props.isOverlayClickClose) {
+					if (this.props.isOverlayClickClose) {
 						this.close();
 					}
-				}}>
+				} }>
 					<View style={styles.overlay}></View>
 				</TouchableWithoutFeedback>
 			);
@@ -115,10 +115,10 @@ class DisplayPopup extends Component{
 				this.close();
 			},
 		}));
-		if(isVisible) {
+		if (isVisible) {
 			return (
 				<View style={styles.popupContainer}>
-					{this._renderOverlay()}
+					{this._renderOverlay() }
 					<View style={styles.tipBoxView}>
 						<PopContent title={title} content={content} btns={btns} />
 					</View>
@@ -130,7 +130,7 @@ class DisplayPopup extends Component{
 
 };
 
-export default class Popup extends Component{
+export default class Popup extends Component {
 
 	static DisplayPopup = DisplayPopup;
 
@@ -154,7 +154,7 @@ export default class Popup extends Component{
 
 	_pop(args) {
 		this.setState({
-			content: ( <PopContent {...args}/> ),
+			content: (<PopContent {...args}/>),
 			isVisible: true,
 		});
 	}
@@ -173,7 +173,7 @@ export default class Popup extends Component{
 	}
 
 	tip(args) {
-		let {title, content, btn,} = args;
+		let {title, content, btn, } = args;
 		this._pop({
 			title: title || 'Tip',
 			content: content,
@@ -188,7 +188,7 @@ export default class Popup extends Component{
 	}
 
 	confirm(args) {
-		let {title, content, ok, cancel,} = args;
+		let {title, content, ok, cancel, } = args;
 		this._pop({
 			title: args.title,
 			content: args.content,
@@ -222,13 +222,13 @@ export default class Popup extends Component{
 	}
 
 	_renderOverlay() {
-		if(this.state.isOverlay) {
+		if (this.state.isOverlay) {
 			return (
 				<TouchableWithoutFeedback onPress={() => {
-					if(this.state.isOverlayClickClose) {
+					if (this.state.isOverlayClickClose) {
 						this.close();
 					}
-				}}>
+				} }>
 					<View style={styles.overlay}></View>
 				</TouchableWithoutFeedback>
 			);
@@ -245,11 +245,11 @@ export default class Popup extends Component{
 
 	render() {
 		let { isVisible, isOverlay, } = this.state;
-		if(isVisible) {
+		if (isVisible) {
 			return (
 				<View style={styles.popupContainer}>
-					{this._renderOverlay()}
-					{this._renderContent()}
+					{this._renderOverlay() }
+					{this._renderContent() }
 				</View>
 			);
 		}
@@ -356,7 +356,7 @@ let styles = StyleSheet.create({
 	},
 });
 
-if(Platform.OS === 'ios'){
+if (Platform.OS === 'ios') {
 	styles = {
 		...styles,
 		tipTitle: {
